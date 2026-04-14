@@ -1,0 +1,52 @@
+# CRT_pumml_cnn.yaml
+#
+# Config for train_cfm_pumml.py
+#
+# input_dim   = 100   (10x10 neutral LV image flattened — what the flow generates)
+# context_dim = 128   (CNN embedding of the 3 input channels — must match embed_dim)
+
+input_dim:   100
+context_dim: 128
+
+gpu: 0
+
+train_kwargs:
+  epochs: 100
+  lr: 0.001
+  log_name: "CRT_pumml_cnn_20k" #"CRT_pumml_cnn"
+  resume: false
+  resume_checkpoint: null
+  save_freq: 10
+  eval_freq: 10
+  scheduler: "ReduceLROnPlateau"
+  freeze_encoder: false   # true = encoder fixed, false = trained jointly with CFM
+
+data_kwargs:
+  dataset_path: "../data/jet_images.npz"
+  N_train: 1800
+  N_test:  3000
+  batch_size: 256
+  test_batch_size: 500
+  standardize: true
+  log1p: true
+  encode_batch: 512
+  noise_distribution: "gaussian"
+
+base_kwargs:
+  encoder_dropout: 0.0
+  cfm:
+    sigma: 0.0001
+    matching_type: "AlphaTTarget"
+    ode_backend: "torchdiffeq"
+    alpha: 1
+    timesteps: 100
+    type: "resnet"
+    mlp_hidden_dim:
+      - 128
+      - 256
+      - 256
+      - 128
+    mlp_num_hidden: 4
+    mlp_activation: "gelu"
+    mlp_dropout: 0.0
+    mlp_batch_norm: false

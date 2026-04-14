@@ -1,0 +1,45 @@
+# CRT.yaml
+# mixture_flow_model_config.yaml
+
+input_dim: 16  # Dimensionality of input (x)
+context_dim: 15  # Dimensionality of context (y)
+gpu : 0 # GPU to use
+train_kwargs:
+  epochs: 10  # Number of epochs
+  lr: 0.001  # Learning rate
+  optimizer: "adam"  # Optimizer
+  log_name: "CRT"  # Log directory NOTE: this will be overwritten if NAME IS THE SAME
+  resume: false  # Resume training
+  resume_checkpoint: null # Checkpoint to resume from
+  save_freq: 10  # Save frequency
+  eval_freq: 10  # Evaluation frequency
+  scheduler: "ReduceLROnPlateau"  # Learning rate scheduler
+data_kwargs:
+  dataset_path : "../data/jets_qcd_dijet_antikt_R0.4.npy" #gen_ttbar_100k_.npy"
+  N_train: 10000  # Number of samples
+  N_test: 3000  # Number of test samples
+  batch_size: 64  # Batch size (increase to 4k for cfm)
+  test_batch_size: 500  # Test batch size
+  flavour_ohe: true  # One-hot encode flavour
+  standardize: true  # Standardize data
+  noise_distribution: "gaussian"  # Noise distribution, choose from 'gaussian' or 'uniform'
+base_kwargs:
+  cfm: # conditional flow matching
+    sigma: 0.0001
+    matching_type: "AlphaTTarget"
+    ode_backend: "torchdiffeq"  # ODE backend, choose from 'torchdiffeq' or 'torchdyn'
+    alpha: 1
+    timesteps: 100
+    type: 'resnet'
+    mlp_hidden_dim: 
+      - 32
+      - 64
+      - 128
+      - 128
+      - 64
+      - 32
+    mlp_num_hidden: 5
+    mlp_activation: "gelu"
+    mlp_dropout: 0.0
+    mlp_batch_norm: false
+
