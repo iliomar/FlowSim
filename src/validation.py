@@ -46,10 +46,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# -----------------------------------------------------------------------------
-# Feature names used for plots and summary files
-# -----------------------------------------------------------------------------
 
+# Feature names used for plots and summary files
 X_FEATURE_NAMES = [
     "btag",
     "recoPtoverPt",
@@ -81,9 +79,8 @@ Y_FEATURE_NAMES = [
 ]
 
 
-# -----------------------------------------------------------------------------
+
 # Utility functions
-# -----------------------------------------------------------------------------
 
 def _ensure_dir(path):
     """Create a directory if it does not already exist."""
@@ -259,9 +256,8 @@ def _save_summary_csv(samples, X_test_cpu, save_path):
             ])
 
 
-# -----------------------------------------------------------------------------
+
 # Plotting functions
-# -----------------------------------------------------------------------------
 
 def _plot_feature_histogram(real, fake, feature_name, output_path):
     """
@@ -482,9 +478,8 @@ def _plot_context_distributions(Y_test_cpu, save_dir, epoch, writer=None):
         plt.close(fig)
 
 
-# -----------------------------------------------------------------------------
+
 # Main validation entry point
-# -----------------------------------------------------------------------------
 
 def validate(samples, X_test_cpu, Y_test_cpu, save_dir, epoch, writer=None):
     """
